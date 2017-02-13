@@ -42,21 +42,27 @@ int crab_action_perform_action(int action, char **argv){
 	switch(action){
 		case CRAB_ACTION_NO_ACTION:
 		return 0;
-		
+		break;
+
 		case CRAB_ACTION_EXECUTE:
 		return crab_action_fork_exec_wait(argv[0], argv);
 		break;
 
+		/* Exit crab */
 		case CRAB_ACTION_EXIT:
 		exit(0);
 		return CRAB_ACTION_GENERIC_ERROR;
 		break;
 
+		/* Change directory */
 		case CRAB_ACTION_CD:
 		if(argv[1] != NULL){
 			return chdir(argv[1]);
 		}
 		else{
+			if(temp = getenv("HOME")){
+				return chdir(temp);
+			}
 			return CRAB_ACTION_GENERIC_ERROR;
 		}
 		break;
