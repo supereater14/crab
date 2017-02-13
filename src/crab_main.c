@@ -31,8 +31,11 @@ int main(int argc, char **argv){
 
     /* Split the command string */
     error = crab_split_command_string(buf, &split_buf);
-    if(error){
-      write(2, "Error in split\n", 15);
+    if(error != CRAB_ACTION_ERROR_SUCCESS){
+      error_text = crab_action_error_get_text(error);
+      write(2, "Error: ", 7);
+      write(2, error_text, strlen(error_text));
+      write(2, "\n", 1);
       return -1;
     }
 
@@ -41,8 +44,9 @@ int main(int argc, char **argv){
 
     /* Perform action */
     error = crab_action_perform_action(action, split_buf);
-    if(error){
+    if(error != CRAB_ACTION_ERROR_SUCCESS){
       error_text = crab_action_error_get_text(error);
+      write(2, "Error: ", 7);
       write(2, error_text, strlen(error_text));
       write(2, "\n", 1);
       return -1;

@@ -2,6 +2,7 @@
 #define CRAB_ACTION_H
 
 /* Error codes */
+#define CRAB_ACTION_ERROR_SUCCESS 0
 #define CRAB_ACTION_GENERIC_ERROR -1
 #define CRAB_ACTION_ERROR_FORK_FAILED -2
 #define CRAB_ACTION_ERROR_EXEC_FAILED -3
@@ -23,7 +24,7 @@ char *crab_action_error_get_text(int error_code);
 /* Reads a command string and determines an action code
  *
  * command - command string to interpret
- * returns - 0 on failure, action code otherwise
+ * returns - action code
  */
 int crab_action_find_action(char *command);
 
@@ -31,7 +32,7 @@ int crab_action_find_action(char *command);
  *
  * action - action code
  * argv - argv for action
- * returns - 0 on success, nonzero otherwise
+ * returns - CRAB_ACTION_ERROR_SUCCESS on success, error code otherwise
  */
 int crab_action_perform_action(int action, char **argv);
 
@@ -39,7 +40,7 @@ int crab_action_perform_action(int action, char **argv);
  *
  * command - program to exec
  * argv - arguments for command
- * returns - 0 on success, nonzero on error
+ * returns - CRAB_ACTION_ERROR_SUCCESS on success, error code on error
  */
 int crab_action_fork_exec_wait(char *command, char **argv);
 

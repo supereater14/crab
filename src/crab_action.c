@@ -9,6 +9,8 @@
 
 char *crab_action_error_get_text(int error_code){
 	switch(error_code){
+		case CRAB_ACTION_ERROR_SUCCESS:
+		return "Success.";
 		case CRAB_ACTION_GENERIC_ERROR:
 		return "Generic error.";
 		case CRAB_ACTION_ERROR_FORK_FAILED:
@@ -41,7 +43,7 @@ int crab_action_perform_action(int action, char **argv){
 
 	switch(action){
 		case CRAB_ACTION_NO_ACTION:
-		return 0;
+		return CRAB_ACTION_ERROR_SUCCESS;
 		break;
 
 		case CRAB_ACTION_EXECUTE:
@@ -57,7 +59,10 @@ int crab_action_perform_action(int action, char **argv){
 		/* Change directory */
 		case CRAB_ACTION_CD:
 		if(argv[1] != NULL){
-			return chdir(argv[1]);
+			if(chdir(argv[1])){
+				return CRAB_ACTION_GENERIC_ERROR;
+			}
+			return CRAB_ACTION_ERROR_SUCCESS;
 		}
 		else{
 			if(temp = getenv("HOME")){
@@ -72,6 +77,7 @@ int crab_action_perform_action(int action, char **argv){
 		write(1, temp, strlen(temp));
 		write(1, "\n", 1);
 		free(temp);
+		return CRAB_ACTION_ERROR_SUCCESS;
 		break;
 
 		default:
@@ -97,5 +103,5 @@ int crab_action_fork_exec_wait(char *command, char **argv){
 		return CRAB_ACTION_ERROR_EXEC_FAILED;
 	}
 
-	return 0;
+	return CRAB_ACTION_ERROR_SUCCESS;
 }
