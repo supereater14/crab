@@ -7,10 +7,11 @@
 #define CRAB_ACTION_ERROR_EXEC_FAILED -3
 
 /* Actions */
-#define CRAB_ACTION_EXECUTE 1
-#define CRAB_ACTION_EXIT 2
-#define CRAB_ACTION_CD 3
-#define CRAB_ACTION_PWD 4
+#define CRAB_ACTION_NO_ACTION 1
+#define CRAB_ACTION_EXECUTE 2
+#define CRAB_ACTION_EXIT 3
+#define CRAB_ACTION_CD 4
+#define CRAB_ACTION_PWD 5
 
 /* Generates error text for a provided error code
  *

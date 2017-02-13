@@ -21,6 +21,9 @@ char *crab_action_error_get_text(int error_code){
 }
 
 int crab_action_find_action(char *command){
+	if(command == NULL){
+		return CRAB_ACTION_NO_ACTION;
+	}
 	if(!strcmp(command, "exit")){
 		return CRAB_ACTION_EXIT;
 	}
@@ -37,6 +40,9 @@ int crab_action_perform_action(int action, char **argv){
 	char *temp;
 
 	switch(action){
+		case CRAB_ACTION_NO_ACTION:
+		return 0;
+		
 		case CRAB_ACTION_EXECUTE:
 		return crab_action_fork_exec_wait(argv[0], argv);
 		break;
