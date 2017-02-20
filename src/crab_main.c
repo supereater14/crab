@@ -7,6 +7,7 @@
 int main(int argc, char **argv){
   char *buf;
   char **split_buf;
+  char **freer_temp;
   char *error_text;
   size_t buf_size;
   size_t size_read;
@@ -51,6 +52,14 @@ int main(int argc, char **argv){
       write(2, "\n", 1);
       return -1;
     }
+
+    /* Free split buffer */
+    freer_temp = split_buf;
+    while(*split_buf != NULL){
+      free(*split_buf);
+      split_buf++;
+    }
+    free(freer_temp);
   }
 
   return 0;
