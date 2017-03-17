@@ -1,6 +1,7 @@
 #define _GNU_SOURCE
 
 #include "crab_action.h"
+#include "term_colour.h"
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
@@ -34,6 +35,9 @@ int crab_action_find_action(char *command){
 	}
 	if(!strcmp(command, "pwd")){
 		return CRAB_ACTION_PWD;
+	}
+	if(!strcmp(command, "colour")){
+		return CRAB_ACTION_COLOUR;
 	}
 	return CRAB_ACTION_EXECUTE;
 }
@@ -72,6 +76,7 @@ int crab_action_perform_action(int action, char **argv){
 		}
 		break;
 
+		/* Print working directory */
 		case CRAB_ACTION_PWD:
 		temp = get_current_dir_name();
 		write(1, temp, strlen(temp));
@@ -79,6 +84,18 @@ int crab_action_perform_action(int action, char **argv){
 		free(temp);
 		return CRAB_ACTION_ERROR_SUCCESS;
 		break;
+
+		/* Change terminal colour */
+		case CRAB_ACTION_COLOUR:
+		if(argv[1] == NULL){
+			return CRAB_ACTION_GENERIC_ERROR;
+		}
+		if(term_colour_set_colour(argv[1]) == TERM_COLOUR_ERROR_SUCCESS){
+			return CRAB_ACTION_ERROR_SUCCESS;
+		}
+		else{
+			return CRAB_ACTION_GENERIC_ERROR;
+		}
 
 		default:
 		return CRAB_ACTION_GENERIC_ERROR;
