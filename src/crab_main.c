@@ -1,8 +1,16 @@
 #include "crab.h"
 #include "crab_action.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include <sys/wait.h>
+#include <sys/types.h> 
+#include <signal.h>
+#include <errno.h>
+
 
 int main(int argc, char **argv){
   char *buf;
@@ -22,20 +30,13 @@ int main(int argc, char **argv){
   }
 
   buf_size = 100;
-  buf = malloc(buf_size * sizeof(char));
 
   for(;;){
-    /* Print prompt */
-    if(getuid()){
-      write(1, "crab$ ", 6);
-    }
-    else{
-      write(1, "crab# ", 6);
-    }
 
     /* Read user input */
-    size_read = read(0, buf, 99);
-    buf[size_read] = '\0';
+    //size_read = read(0, buf, 99);
+    //buf[size_read] = '\0';
+    buf = readline("crab$ ");
 
     /* Handle piped commands */
     if(crab_isPiped(buf)) {
