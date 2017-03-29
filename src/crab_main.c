@@ -1,5 +1,6 @@
 #include "crab.h"
 #include "crab_action.h"
+#include "alias.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -30,6 +31,8 @@ int main(int argc, char **argv){
   }
 
   buf_size = 100;
+
+  init_alias();
 
   for(;;){
 
