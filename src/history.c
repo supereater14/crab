@@ -3,6 +3,8 @@
 // List is empty by default so size is 0
 int size = 0;
 
+char **tempArray;
+int tempArraySize = 0;
 Node *last;
 Node *currPos;
 
@@ -20,8 +22,8 @@ void buildHist() {
     FILE *hist = fopen("cmdhist.txt", "a+");
     char *cmd;
     // Retrieve command history from file and add to the active session's history
-    while(fgets(cmd = malloc(sizeof(char)*255), sizeof(cmd), hist)) {
-        addLast(cmd);
+    while(fgets(cmd = malloc(sizeof(char)*256), sizeof(char)*256, hist)) {
+        addLast(parseCmd(cmd));
     }
 
     // Close the file
@@ -40,22 +42,24 @@ Node *createNode(char *content) {
     newNode->content = content;
     return newNode;
 }
-// debug
-int count = 0;
+
 // Adds a node to the end of the list
 Node *addLast(char *content) {
+    // Append newline to the end of the command
+    char *contentN = strcat(content, "\n");
     // If the list is empty newNode becomes last, else newNode is added after last
-    Node *newNode = createNode(content);
+    Node *newNode = createNode(contentN);
     if (isEmpty()) {
         last->prev = newNode;
+        newNode->next = last;
     }
     else {
         newNode->prev = last->prev;
         newNode->next = last;
+        last->prev->next = newNode;
         last->prev = newNode;
     }
     size++;
-
     return newNode;
 }
 
@@ -80,15 +84,89 @@ Node *addCommand(char *cmd) {
     FILE *hist = fopen("cmdhist.txt", "a");
 
     // Add the command to the end of the list
-    Node *temp = addLast(cmd);
+    Node *temp = addLast(parseCmd(cmd));
 
     // Write the command to the end of the file
-    fprintf(hist, "%s\n", getContent(temp));
+    fprintf(hist, "%s\n", parseCmd(cmd));
 
     // Close the file
     fclose(hist);
 
     return temp;
+}
+
+// Traverse up in the history
+Node *up() {
+    if (currPos->prev != NULL) {
+        currPos = currPos->prev;
+    }
+    else {
+        printf("Reached the front of the list\n");
+    }
+}
+
+// Traverse down in the history
+Node *down() {
+    if (currPos->next != last) {
+        currPos = currPos->next;
+    }
+    else {
+        printf("Reached the bottom of the list\n");
+    }
+}
+
+// Print out the specified number of commands
+int displayHist(int numCommands) {
+    if (numCommands > getSize()) {
+        return CRAB_HISTORY_OUT_OF_BOUNDS_ERROR;
+    }
+    // Rewind to the earliest command to be printed
+    int i = 0;
+    up();
+    for (i; i < numCommands; i++) {
+        up();
+    }
+
+    // Create a temp array to be used to access old commands,
+    // and print commands out to the screen
+    makeTempArray(numCommands);
+    return DISPLAY_HISTORY_ERROR_SUCCESS;
+}
+
+// Create a temp array and print out commands to the console
+// Along with their indices
+void makeTempArray(int numCommands) {
+    tempArray = malloc(sizeof(char*) * numCommands);
+    tempArraySize = numCommands;
+    // Fast forward back through the history to the end and
+    // fill the temp array with the proper commands and
+    // indices
+    int i = 1;
+    for (i; i < numCommands + 1; i++) {
+        tempArray[i] = getCurrContent();
+        printf("[%d] %s", i, getCurrContent());
+        down();
+    }
+}
+
+// Free the temp array
+void freeTempArray(char** tempArray) {
+    free(tempArray);
+    tempArraySize = 0;
+}
+
+// Retrieve a command from the temp array
+extern char *getCmdFromHist(int index) {
+    if (index > tempArraySize) {
+        return "Failed!";
+    }
+    return tempArray[index];
+}
+
+// Remove newline at end of string
+extern char *parseCmd(char* command) {
+    command = strtok(command, "\n");
+    return command;
 }
 
 // Return the number of elements in the list
@@ -101,23 +179,23 @@ void setSize(int s) {
     size = s;
 }
 
-int main(int argc, char **argv) {
-    init();
-    if (isEmpty()) {
-        addCommand("Test1");
-        addCommand("Test2");
-        addCommand("Test3");
-        addCommand("Test4");
-        init();
-    }
-    printf("Checkin1\n");
-    currPos = getLast();
-    printf("Checkin2\n");
-    while (currPos != NULL) {
-        printf("%s", getCurrContent());
-        currPos = currPos->prev;
-        printf("Checkinloop\n");
-    }
-    addCommand("Test Add");
-    addCommand("Sneaky malicious test\n");
-}
+//int main(int argc, char **argv) {
+//    init();
+//    if (isEmpty()) {
+//        addCommand("Test1");
+//        addCommand("Test2");
+//        addCommand("Test3");
+//        addCommand("Test4");
+//        init();
+//    }
+//    printf("Checkin1\n");
+//    currPos = getLast();
+//    printf("Checkin2\n");
+//    while (currPos != NULL) {
+//        printf("%s", getCurrContent());
+//        currPos = currPos->prev;
+//        printf("Checkinloop\n");
+//    }
+//    addCommand("Test Add");
+//    addCommand("Sneaky malicious test\n");
+//}

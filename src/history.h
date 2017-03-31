@@ -12,6 +12,10 @@ Reads stored history from a text file, and stores history during each session.
 #include <stdbool.h>
 #include <stdio.h>
 
+
+#define DISPLAY_HISTORY_ERROR_SUCCESS 0
+#define CRAB_HISTORY_OUT_OF_BOUNDS_ERROR 1
+
 typedef struct node {
     char *content;
     struct node *prev;
@@ -52,7 +56,28 @@ extern char *getContent(Node *pos);
 extern char *getCurrContent();
 
 // Add a new command to the end of the command history file
-extern Node *addCommand();
+extern Node *addCommand(char *cmd);
+
+// Traverse up in the history
+extern Node *up();
+
+// Traverse down in the history
+extern Node *down();
+
+// Print out the specified number of commands
+extern int displayHist(int numCommands);
+
+// Create a temp array
+extern void makeTempArray(int numCommands);
+
+// Free the temp array
+extern void freeTempArray(char** tempArray);
+
+// Retrieve a command from the temp array
+extern char *getCmdFromHist(int index);
+
+// Remove newline at end of string
+extern char *parseCmd(char* command);
 
 // Getter and Setter for size
 extern int getSize();

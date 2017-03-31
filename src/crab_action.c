@@ -2,6 +2,7 @@
 
 #include "crab_action.h"
 #include "term_colour.h"
+#include "history.h"
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
@@ -18,6 +19,8 @@ char *crab_action_error_get_text(int error_code){
 		return "Fork failed.";
 		case CRAB_ACTION_ERROR_EXEC_FAILED:
 		return "Exec failed.";
+        case HISTORY_DISPLAY_ERROR:
+        return "History failed to display.";
 		default:
 		return "Unknown error.";
 	}
@@ -39,11 +42,15 @@ int crab_action_find_action(char *command){
 	if(!strcmp(command, "colour")){
 		return CRAB_ACTION_COLOUR;
 	}
+	if(!strncmp(command, "history", 7)){
+		return CRAB_ACTION_HIST;
+	}
 	return CRAB_ACTION_EXECUTE;
 }
 
 int crab_action_perform_action(int action, char **argv){
 	char *temp;
+    int numCmds;
 
 	switch(action){
 		case CRAB_ACTION_NO_ACTION:
@@ -95,6 +102,25 @@ int crab_action_perform_action(int action, char **argv){
 		}
 		else{
 			return CRAB_ACTION_GENERIC_ERROR;
+		}
+
+		/* Display command history */
+		case CRAB_ACTION_HIST:
+		if(argv[1] == NULL) {
+			numCmds = 10;
+		}
+		else {
+            numCmds = atoi(argv[1]);
+            if (numCmds == 0) {
+                printf("Failed to convert argv[1] to integer\n");
+                return HISTORY_DISPLAY_ERROR;
+            }
+		}
+		if(displayHist(numCmds) == DISPLAY_HISTORY_ERROR_SUCCESS){
+			return CRAB_ACTION_ERROR_SUCCESS;
+		}
+		else{
+			return HISTORY_DISPLAY_ERROR;
 		}
 
 		default:
