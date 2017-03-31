@@ -2,7 +2,9 @@
 
 #include "crab_action.h"
 #include "term_colour.h"
+#include "alias.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -39,11 +41,15 @@ int crab_action_find_action(char *command){
 	if(!strcmp(command, "colour")){
 		return CRAB_ACTION_COLOUR;
 	}
+	if(!strcmp(command, "ad")){
+		return CRAB_ACTION_AD;
+	}
 	return CRAB_ACTION_EXECUTE;
 }
 
 int crab_action_perform_action(int action, char **argv){
 	char *temp;
+	int pos;
 
 	switch(action){
 		case CRAB_ACTION_NO_ACTION:
@@ -63,6 +69,12 @@ int crab_action_perform_action(int action, char **argv){
 		/* Change directory */
 		case CRAB_ACTION_CD:
 		if(argv[1] != NULL){
+			if((pos = is_alias(argv[1])) >= 0) {
+				if(chdir(get_dir(pos))){
+					return CRAB_ACTION_GENERIC_ERROR;
+				}
+			return CRAB_ACTION_ERROR_SUCCESS;
+			}
 			if(chdir(argv[1])){
 				return CRAB_ACTION_GENERIC_ERROR;
 			}
@@ -95,6 +107,75 @@ int crab_action_perform_action(int action, char **argv){
 		}
 		else{
 			return CRAB_ACTION_GENERIC_ERROR;
+		}
+
+		/* Alias Directory - usage: ad help */
+		case CRAB_ACTION_AD:
+		if(argv[1] == NULL) {
+			temp = get_current_dir_name();
+			if(add_alias("prev", temp) == 0)
+				return CRAB_ACTION_ERROR_SUCCESS;
+			else 
+				return CRAB_ACTION_GENERIC_ERROR;
+		}
+
+		if(argv[1] != NULL && argv[2] == NULL) {
+			/* help */
+			if(strcmp(argv[1], "help") == 0) {
+				if(print_alias_help() == 0)
+					return CRAB_ACTION_ERROR_SUCCESS;
+				else
+					return CRAB_ACTION_GENERIC_ERROR;
+			}
+			/* print */
+			if(strcmp(argv[1], "print") == 0) {
+				if(print_alias() == 0)
+					return CRAB_ACTION_ERROR_SUCCESS;
+				else
+					return CRAB_ACTION_GENERIC_ERROR;
+			}
+			/* save */
+			if(strcmp(argv[1], "save") == 0) {
+				if(save_alias() == 0)
+					return CRAB_ACTION_ERROR_SUCCESS;
+				else
+					return CRAB_ACTION_GENERIC_ERROR;
+			}
+			/* reset */
+			if(strcmp(argv[1], "reset") == 0) {
+				if(reset_alias() == 0)
+					return CRAB_ACTION_ERROR_SUCCESS;
+				else
+					return CRAB_ACTION_GENERIC_ERROR;
+			}
+			/* set alias with name = to curr dir */
+			temp = get_current_dir_name();
+			if(add_alias(argv[1], temp) == 0)
+				return CRAB_ACTION_ERROR_SUCCESS;
+			else 
+				return CRAB_ACTION_GENERIC_ERROR;
+		}
+
+		if(argv[1] != NULL && argv[2] != NULL) {
+			/* remove */
+			if(strcmp(argv[1], "remove") == 0) {
+				remove_alias(argv[2]);
+				return CRAB_ACTION_ERROR_SUCCESS;
+			}
+			/* findn */
+			if(strcmp(argv[1], "findn") == 0) {
+				find_alias_name(argv[2]);
+				return CRAB_ACTION_ERROR_SUCCESS;
+			}
+			/* findd */
+			if(strcmp(argv[1], "findd") == 0) {
+				find_alias_dir(argv[2]);
+				return CRAB_ACTION_ERROR_SUCCESS;
+			}
+			if(add_alias(argv[1], argv[2]) == 0)
+				return CRAB_ACTION_ERROR_SUCCESS;
+			else 
+				return CRAB_ACTION_GENERIC_ERROR;
 		}
 
 		default:
