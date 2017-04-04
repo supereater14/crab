@@ -25,7 +25,7 @@ ${OBJ_DIR}/alias.o: ${SRC_DIR}/alias.h ${SRC_DIR}/alias.c
 	${CC} ${CFLAGS} ${SRC_DIR}/alias.c -c -o ${OBJ_DIR}/alias.o
 
 install:
-	cp -R ${MAN_DIR}/*.1.gz /usr/share/man/man1/
+	cp ${MAN_DIR}/*.1.gz /usr/share/man/man1/
 	mandb
 
 clean:

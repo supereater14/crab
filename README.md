@@ -8,6 +8,12 @@
     make clean
     make
 
+# Installing
+    To install the custom commands man pages so they can be accessed through the 'man' command,
+    type the following command (followed by 'enter') in the command line:
+
+    sudo make install
+
 # Running
     To run the shell once it has been built enter the command from within the
     crab directory:
