@@ -28,6 +28,6 @@ clean:
 	rm -f ${OBJS} ${BINS}
 
 install: all
-        sudo cp ${MAN_DIR}/*.gz /usr/share/man/man1/
-        sudo mandb
+	sudo cp ${MAN_DIR}/*.gz /usr/share/man/man1/
+	sudo mandb
 
