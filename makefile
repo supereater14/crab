@@ -23,6 +23,7 @@ ${OBJ_DIR}/term_colour.o: ${SRC_DIR}/term_colour.h ${SRC_DIR}/term_colour.c
 
 install:
     cp -a man/ /usr/share/man/man1/
+    sudo mandb
 
 clean:
     rm -f ${OBJS} ${BINS}
