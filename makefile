@@ -22,7 +22,7 @@ ${OBJ_DIR}/term_colour.o: ${SRC_DIR}/term_colour.h ${SRC_DIR}/term_colour.c
 	${CC} ${CFLAGS} ${SRC_DIR}/term_colour.c -c -o ${OBJ_DIR}/term_colour.o
 
 install:
-    cp -a man/ /usr/share/man/man1/
+    cp man/ /usr/share/man/man1/
     sudo mandb
 
 clean:
