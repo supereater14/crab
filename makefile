@@ -11,8 +11,6 @@ BINS = ${BIN_DIR}/crab
 
 ${BIN_DIR}/crab: ${SRC_DIR}/crab_main.c ${OBJS}
 	${CC} ${CFLAGS} ${SRC_DIR}/crab_main.c ${OBJS} -o ${BIN_DIR}/crab -lreadline
-    sudo cp $/man /usr/share/man/man1/
-    sudo mandb
 
 ${OBJ_DIR}/crab.o: ${SRC_DIR}/crab.h ${SRC_DIR}/crab.c
 	${CC} ${CFLAGS} ${SRC_DIR}/crab.c -c -o ${OBJ_DIR}/crab.o
@@ -25,6 +23,10 @@ ${OBJ_DIR}/term_colour.o: ${SRC_DIR}/term_colour.h ${SRC_DIR}/term_colour.c
 
 ${OBJ_DIR}/alias.o: ${SRC_DIR}/alias.h ${SRC_DIR}/alias.c
 	${CC} ${CFLAGS} ${SRC_DIR}/alias.c -c -o ${OBJ_DIR}/alias.o
+
+install:
+    sudo cp $/man /usr/share/man/man1/
+    sudo mandb
 
 clean:
 	rm -f ${OBJS} ${BINS}
