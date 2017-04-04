@@ -22,8 +22,8 @@ ${OBJ_DIR}/term_colour.o: ${SRC_DIR}/term_colour.h ${SRC_DIR}/term_colour.c
 	${CC} ${CFLAGS} ${SRC_DIR}/term_colour.c -c -o ${OBJ_DIR}/term_colour.o
 
 ${MAN_DIR}:
-    cp ${MAN_DIR}/ /usr/share/man/man1/
-    
+    cp ${MAN_DIR}/ /usr/share/man/man1
+
 clean:
 	rm -f ${OBJS} ${BINS}
 
