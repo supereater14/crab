@@ -59,10 +59,10 @@ extern char *getCurrContent();
 extern Node *addCommand(char *cmd);
 
 // Traverse up in the history
-extern Node *up();
+extern void *up();
 
 // Traverse down in the history
-extern Node *down();
+extern void *down();
 
 // Print out the specified number of commands
 extern int displayHist(int numCommands);
@@ -71,7 +71,10 @@ extern int displayHist(int numCommands);
 extern void makeTempArray(int numCommands);
 
 // Free the temp array
-extern void freeTempArray(char** tempArray);
+extern void freeTempArray();
+
+// Free the history list
+extern void freeHistory();
 
 // Retrieve a command from the temp array
 extern char *getCmdFromHist(int index);

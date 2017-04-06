@@ -7,6 +7,7 @@ char **tempArray;
 int tempArraySize = 0;
 Node *last;
 Node *currPos;
+int charLength = 100;
 
 // Initialize the list
 void init() {
@@ -22,10 +23,10 @@ void buildHist() {
     FILE *hist = fopen("cmdhist.txt", "a+");
     char *cmd;
     // Retrieve command history from file and add to the active session's history
-    while(fgets(cmd = malloc(sizeof(char)*256), sizeof(char)*256, hist)) {
+    while(fgets(cmd = malloc(sizeof(char)*charLength), sizeof(char)*charLength, hist)) {
         addLast(parseCmd(cmd));
     }
-
+    free(cmd);
     // Close the file
     fclose(hist);
 }
@@ -59,6 +60,7 @@ Node *addLast(char *content) {
         last->prev->next = newNode;
         last->prev = newNode;
     }
+    printf("At the end of addlast, new command is: %s", newNode->content);
     size++;
     return newNode;
 }
@@ -83,8 +85,10 @@ Node *addCommand(char *cmd) {
     // Open file for writing
     FILE *hist = fopen("cmdhist.txt", "a");
 
+    cmd = parseCmd(cmd);
+
     // Add the command to the end of the list
-    Node *temp = addLast(parseCmd(cmd));
+    Node *temp = addLast(cmd);
 
     // Write the command to the end of the file
     fprintf(hist, "%s\n", parseCmd(cmd));
@@ -96,7 +100,7 @@ Node *addCommand(char *cmd) {
 }
 
 // Traverse up in the history
-Node *up() {
+void *up() {
     if (currPos->prev != NULL) {
         currPos = currPos->prev;
     }
@@ -106,8 +110,8 @@ Node *up() {
 }
 
 // Traverse down in the history
-Node *down() {
-    if (currPos->next != last) {
+void *down() {
+    if (currPos->next != NULL) {
         currPos = currPos->next;
     }
     else {
@@ -122,7 +126,6 @@ int displayHist(int numCommands) {
     }
     // Rewind to the earliest command to be printed
     int i = 0;
-    up();
     for (i; i < numCommands; i++) {
         up();
     }
@@ -136,23 +139,38 @@ int displayHist(int numCommands) {
 // Create a temp array and print out commands to the console
 // Along with their indices
 void makeTempArray(int numCommands) {
-    tempArray = malloc(sizeof(char*) * numCommands);
+    free(tempArray);
+    tempArray = malloc(sizeof(char) * charLength * numCommands);
     tempArraySize = numCommands;
+    char *temp;
     // Fast forward back through the history to the end and
     // fill the temp array with the proper commands and
     // indices
-    int i = 1;
-    for (i; i < numCommands + 1; i++) {
+    int i = 0;
+    for (i; i < numCommands; i++) {
         tempArray[i] = getCurrContent();
-        printf("[%d] %s", i, getCurrContent());
+        temp = parseCmd(getCurrContent());
+        printf("[%d] %s\n", (i + 1), temp);
         down();
     }
 }
 
 // Free the temp array
-void freeTempArray(char** tempArray) {
+void freeTempArray() {
     free(tempArray);
     tempArraySize = 0;
+}
+
+// Free the history list
+void freeHistory() {
+    currPos = last;
+    while (currPos->prev != NULL) {
+        Node *temp = currPos;
+        up();
+        free(temp->content);
+        free(temp);
+    }
+    free(currPos);
 }
 
 // Retrieve a command from the temp array

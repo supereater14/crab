@@ -33,7 +33,6 @@ int main(int argc, char **argv){
   }
 
   buf_size = 100;
-
   /* Initialize the command history */
   init();
 
@@ -106,16 +105,25 @@ int main(int argc, char **argv){
     if (histFlag) {
       char *temp = readline("crab$ ");
       int tempInt = atoi(temp);
+      free(temp);
       if (tempInt == 0) {
-        break;
+        write(2, "Invalid index\n", 14);
+        histFlag = 0;
+        continue;
       }
-      buf = getCmdFromHist(tempInt);
+      else {
+        // Adjust for offset
+        tempInt -= 1;
+      }
+      strcpy(buf, getCmdFromHist(tempInt));
       if (!strcmp(buf, "Failed!")) {
-        write(2, "Invalid index ", 7);
+        write(2, "Invalid index\n", 14);
+        histFlag = 0;
         continue;
       }
       histFlag = 0;
     }
+    /* Normal behavior, not directly after history command */
     else {
       /* Read user input */
       //size_read = read(0, buf, 99);
@@ -158,6 +166,7 @@ int main(int argc, char **argv){
       return -1;
     }
 
+    printf("Just before being added to history, buf is %s", buf);
     /* Add the command to the command history*/
     addCommand(buf);
     /* Set histFlag to true for next loop if history command was called */

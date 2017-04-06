@@ -63,6 +63,7 @@ int crab_action_perform_action(int action, char **argv){
 
 		/* Exit crab */
 		case CRAB_ACTION_EXIT:
+        freeHistory();
 		exit(0);
 		return CRAB_ACTION_GENERIC_ERROR;
 		break;
