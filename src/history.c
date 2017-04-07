@@ -60,7 +60,6 @@ Node *addLast(char *content) {
         last->prev->next = newNode;
         last->prev = newNode;
     }
-    printf("At the end of addlast, new command is: %s", newNode->content);
     size++;
     return newNode;
 }
