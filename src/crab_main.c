@@ -12,7 +12,6 @@
 #include <sys/types.h> 
 #include <signal.h>
 #include <errno.h>
-#include <ncurses.h>
 
 
 int main(int argc, char **argv){
