@@ -1,6 +1,7 @@
 #include "crab.h"
 #include "crab_action.h"
 #include "history.h"
+#include "alias.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -36,70 +37,9 @@ int main(int argc, char **argv){
   /* Initialize the command history */
   init();
 
-  for(;;){
+  init_alias();
 
-//    printf("Testing getch()\n");
-//    char* test1 = getch();
-//    char* test2 = getch();
-//    char* test3 = getch();
-//    printf("%c %c %c", test1, test2, test3);
-//    readline("Nothin ");
-//    /* Check for special character input */
-//    for(;;) {
-//      char test = getch();
-//      printf("%c", getch());
-//      printf("%c", getch());
-//      readline("");
-//      if (getch() == '\033') {
-//        // Skip useless info
-//        printf("Runs?");
-//        getch();
-//        printf("%c", getch());
-//        readline("");
-//        switch(getch()) {
-//          case 65:
-//            printf("Got up arrow\n");
-//            break;
-//          case 66:
-//            printf("Got down arrow\n");
-//            break;
-//          case 67:
-//            printf("Got left arrow\n");
-//            break;
-//          case 68:
-//            printf("Got right arrow\b");
-//            break;
-//        }
-//      }
-//    }
-//    /* Get keys as input */
-//    char* buffer = malloc(buf_size);
-//    int bufLen = 0;
-//    initscr();
-//    keypad(stdscr, TRUE);
-//    for(;;) {
-//      int ch;
-//
-//      ch = getch();
-//
-//      if (ch == KEY_UP) {
-//        up();
-//        printf("%s", getCurrContent());
-//      }
-//      else if (ch == KEY_DOWN) {
-//        down();
-//        printf("%s", getCurrContent());
-//      }
-//      else if (ch == 10) {
-//        break;
-//      }
-//      else {
-//        char tempch = (char) ch;
-//        printf("%c", tempch);
-//        buffer[bufLen] = tempch;
-//        bufLen++;
-//      }
-//    }
+  for(;;){
 
     /* Behavior immediately after running a history command */
     if (histFlag) {
@@ -166,7 +106,6 @@ int main(int argc, char **argv){
       return -1;
     }
 
-    printf("Just before being added to history, buf is %s", buf);
     /* Add the command to the command history*/
     addCommand(buf);
     /* Set histFlag to true for next loop if history command was called */
