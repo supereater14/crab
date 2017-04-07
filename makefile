@@ -30,4 +30,3 @@ install:
 
 clean:
 	rm -f ${OBJS} ${BINS}
-
