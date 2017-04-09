@@ -135,7 +135,8 @@ char* getViewCommand(char* filename) {
   type = get_type_fname(filename);
   
   program = getProgram(type);
-  strncat(command, program);
+  strncat(command, program, 510);
+  strncat(command, " ", 510);
   free(program);
 
   strncat(command, filename, 510);

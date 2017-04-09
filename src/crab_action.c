@@ -3,6 +3,7 @@
 #include "crab_action.h"
 #include "term_colour.h"
 #include "alias.h"
+#include "view/view_main.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -43,6 +44,9 @@ int crab_action_find_action(char *command){
 	}
 	if(!strcmp(command, "ad")){
 		return CRAB_ACTION_AD;
+	}
+	if(!strcmp(command, "view")){
+	  return CRAB_ACTION_VIEW;
 	}
 	return CRAB_ACTION_EXECUTE;
 }
@@ -177,9 +181,32 @@ int crab_action_perform_action(int action, char **argv){
 			else 
 				return CRAB_ACTION_GENERIC_ERROR;
 		}
+		
+		break;
 
-		default:
-		return CRAB_ACTION_GENERIC_ERROR;
+		/* View */
+	case CRAB_ACTION_VIEW:
+	  if(argv[1] != NULL) {
+	    
+	    char** command[3][256];
+	    char* view;
+	    command[2] = NULL;
+	    
+	    view = getViewCommand(argv[1]);
+	    
+	    strtok(view, " ");
+	    command[0] = strtok(NULL, " ");
+	    command[1] = strtok(NULL, " ");
+
+	    free(view);
+
+	    crab_action_fork_exec_wait(command[0], command);
+	  }
+	  
+	  break;
+
+	default:
+	  return CRAB_ACTION_GENERIC_ERROR;
 	}
 }
 
