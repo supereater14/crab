@@ -1,4 +1,5 @@
 #include "ftype.h"
+#include <stdlib.h>
 #include <unistd.h>
 
 char *get_ext(char *fname){
@@ -54,7 +55,110 @@ filetype_t check_ascii(char *fname){
 }
 
 filetype_t get_type_ext(char *ext){
-	/* TODO */
+	char *search_str;
+
+	/* OH GOD WHYYYYYYYYYYYYY?!?!?!?!?!? */
+
+	search_str = getenv("AUDIO_EXTS");
+	if(search_str != NULL){
+		search_str = strtok(search_str, ",");
+		while(search_str != NULL){
+			if(!strcmp(search_str, ext)){
+				return AUDIO;
+			}
+			search_str = strtok(NULL, ",");
+		}
+	}
+
+	search_str = getenv("VIDEO_EXTS");
+	if(search_str != NULL){
+		search_str = strtok(search_str, ",");
+		while(search_str != NULL){
+			if(!strcmp(search_str, ext)){
+				return VIDEO;
+			}
+			search_str = strtok(NULL, ",");
+		}
+	}
+
+	search_str = getenv("MEDIA_EXTS");
+	if(search_str != NULL){
+		search_str = strtok(search_str, ",");
+		while(search_str != NULL){
+			if(!strcmp(search_str, ext)){
+				return MEDIA;
+			}
+			search_str = strtok(NULL, ",");
+		}
+	}
+
+	search_str = getenv("IMAGE_EXTS");
+	if(search_str != NULL){
+		search_str = strtok(search_str, ",");
+		while(search_str != NULL){
+			if(!strcmp(search_str, ext)){
+				return IMAGE;
+			}
+			search_str = strtok(NULL, ",");
+		}
+	}
+
+	search_str = getenv("DOCUMENT_EXTS");
+	if(search_str != NULL){
+		search_str = strtok(search_str, ",");
+		while(search_str != NULL){
+			if(!strcmp(search_str, ext)){
+				return DOCUMENT;
+			}
+			search_str = strtok(NULL, ",");
+		}
+	}
+	
+	search_str = getenv("PRESENTATION_EXTS");
+	if(search_str != NULL){
+		search_str = strtok(search_str, ",");
+		while(search_str != NULL){
+			if(!strcmp(search_str, ext)){
+				return PRESENTATION;
+			}
+			search_str = strtok(NULL, ",");
+		}
+	}
+
+	search_str = getenv("SPREADSHEET_EXTS");
+	if(search_str != NULL){
+		search_str = strtok(search_str, ",");
+		while(search_str != NULL){
+			if(!strcmp(search_str, ext)){
+				return SPREADSHEET;
+			}
+			search_str = strtok(NULL, ",");
+		}
+	}
+
+	search_str = getenv("SOURCE_EXTS");
+	if(search_str != NULL){
+		search_str = strtok(search_str, ",");
+		while(search_str != NULL){
+			if(!strcmp(search_str, ext)){
+				return SOURCE;
+			}
+			search_str = strtok(NULL, ",");
+		}
+	}
+
+	search_str = getenv("TEXT_EXTS");
+	if(search_str != NULL){
+		search_str = strtok(search_str, ",");
+		while(search_str != NULL){
+			if(!strcmp(search_str, ext)){
+				return TEXT;
+			}
+			search_str = strtok(NULL, ",");
+		}
+	}
+
+	return UNKNOWN;
 }
 
 filetype_t get_type_fname(char *fname){
