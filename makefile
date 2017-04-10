@@ -5,7 +5,7 @@ BIN_DIR = bin
 CC = gcc
 CFLAGS = -g -I ${SRC_DIR}
 
-OBJS = ${OBJ_DIR}/crab.o ${OBJ_DIR}/term_colour.o ${OBJ_DIR}/alias.o ${OBJ_DIR}/crab_action.o $(OBJDIR)/view_main.o
+OBJS = ${OBJ_DIR}/crab.o ${OBJ_DIR}/term_colour.o ${OBJ_DIR}/alias.o ${OBJ_DIR}/crab_action.o ${OBJ_DIR}/view_main.o ${OBJ_DIR}/ftype.o
 BINS = ${BIN_DIR}/crab
 
 ${BIN_DIR}/crab: ${SRC_DIR}/crab_main.c ${OBJS}
@@ -23,8 +23,11 @@ ${OBJ_DIR}/term_colour.o: ${SRC_DIR}/term_colour.h ${SRC_DIR}/term_colour.c
 ${OBJ_DIR}/alias.o: ${SRC_DIR}/alias.h ${SRC_DIR}/alias.c
 	${CC} ${CFLAGS} ${SRC_DIR}/alias.c -c -o ${OBJ_DIR}/alias.o
 
-$(OBJ_DIR)/view_main.o: $(SRC_DIR)/view/view_main.h $(SRC_DIR)/view/view_main.c
-	$(CC) $(CFLAGS) $(SRC_DIR)/view/view_main.c -c -o $(OBJ_DIR)/view_main.o
+${OBJ_DIR}/view_main.o: ${SRC_DIR}/view/view_main.h ${SRC_DIR}/view/view_main.c
+	${CC} ${CFLAGS} ${SRC_DIR}/view/view_main.c -c -o ${OBJ_DIR}/view_main.o
+
+${OBJ_DIR}/ftype.o: ${SRC_DIR}/view/ftype.h ${SRC_DIR}/view/ftype.c
+	${CC} ${CFLAGS} ${SRC_DIR}/view/ftype.c -c -o ${OBJ_DIR}/ftype.o
 
 clean:
 	rm -f ${OBJS} ${BINS}
