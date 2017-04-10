@@ -21,8 +21,8 @@ Alias for crabshell
 
 typedef struct crab_alias {
     char directories[MAXALIAS][MAXALIASLENGTH];
-    char names[MAXALIAS][MAXALIASLENGTH];
-    int count;
+	char names[MAXALIAS][MAXALIASLENGTH];
+	int count;
 } Crab_Alias;
 
 /*
