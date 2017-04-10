@@ -1,6 +1,7 @@
 SRC_DIR = src
 OBJ_DIR = obj
 BIN_DIR = bin
+MAN_DIR = man
 
 CC = gcc
 CFLAGS = -g -I ${SRC_DIR}
@@ -23,6 +24,9 @@ ${OBJ_DIR}/term_colour.o: ${SRC_DIR}/term_colour.h ${SRC_DIR}/term_colour.c
 ${OBJ_DIR}/alias.o: ${SRC_DIR}/alias.h ${SRC_DIR}/alias.c
 	${CC} ${CFLAGS} ${SRC_DIR}/alias.c -c -o ${OBJ_DIR}/alias.o
 
+install:
+	cp ${MAN_DIR}/*.gz /usr/share/man/man1/
+	mandb
+
 clean:
 	rm -f ${OBJS} ${BINS}
-
