@@ -9,7 +9,7 @@ int setProgram(char* progName, filetype_t fType){
   //Adds the key to the environment variable.
   switch(fType) {
     
-  case UNKOWN:
+  case UNKNOWN:
     break;
 
   case AUDIO:
@@ -50,9 +50,6 @@ int setProgram(char* progName, filetype_t fType){
 
   case BINARY:
     strncat(string, "binary=",250);
-    break;
-
-  case default:
     break;
 
   }
@@ -98,9 +95,6 @@ char* getProgram(filetype_t fType) {
   case SPREADSHEET:
     strncat(string, "spreadsheet",250);
     break;
-
-  case DOCUMENT:
-    strncat(string,"document",250);
    
   case SOURCE:
     strncat(string, "source",250);
@@ -108,9 +102,6 @@ char* getProgram(filetype_t fType) {
    
   case BINARY:
     strncat(string, "binary",250);
-    break;
-    
-  case default:
     break;
 
   }

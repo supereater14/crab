@@ -16,6 +16,7 @@
 #define CRAB_ACTION_COLOUR 6
 #define CRAB_ACTION_AD 7
 #define CRAB_ACTION_VIEW 8
+#define CRAB_ACTION_SETP 9
 
 /* Generates error text for a provided error code
  *
