@@ -48,6 +48,9 @@ int crab_action_find_action(char *command){
 	if(!strcmp(command, "view")){
 	  return CRAB_ACTION_VIEW;
 	}
+	if(!strcmp(command, "setp")){
+	  return CRAB_ACTION_SETP;
+	}
 	return CRAB_ACTION_EXECUTE;
 }
 
@@ -188,7 +191,7 @@ int crab_action_perform_action(int action, char **argv){
 	case CRAB_ACTION_VIEW:
 	  if(argv[1] != NULL) {
 	    
-	    char** command[3][256];
+	    char* command[3];
 	    char* view;
 	    command[2] = NULL;
 	    
@@ -204,6 +207,49 @@ int crab_action_perform_action(int action, char **argv){
 	  }
 	  
 	  break;
+	  
+	case CRAB_ACTION_SETP:
+	  if(argv[1] != NULL && argv[2] != NULL) {
+	    
+	    int status;
+	    filetype_t type;
+
+	    if(strncmp(argv[1], "audio", 6) == 0)
+	      type = AUDIO;
+
+	    else if(strncmp(argv[1], "document", 9) == 0)
+	      type = DOCUMENT;
+
+	    else if(strncmp(argv[1], "binary", 7) == 0)
+	      type = BINARY;
+
+	    else if(strncmp(argv[1], "source", 7) == 0)
+	      type = SOURCE;
+
+	    else if(strncmp(argv[1], "video", 6) == 0)
+	      type = VIDEO;
+	    
+	    else if(strncmp(argv[1], "image", 6) == 0)
+	      type = IMAGE;
+
+	    else if(strncmp(argv[1], "media", 6) == 0)
+	      type = MEDIA;
+
+	    else if(strncmp(argv[1], "presentation", 13) == 0)
+	      type = PRESENTATION;
+		    
+	    else if(strncmp(argv[1], "spreadsheet", 12) == 0)
+	      type = SPREADSHEET;
+
+	    else if(strncmp(argv[1], "text", 5) == 0)
+	      type = TEXT;
+
+	    else if(strncmp(argv[1], "unknown", 8) == 0)
+	      type = UNKNOWN;
+
+		    
+
+	  }
 
 	default:
 	  return CRAB_ACTION_GENERIC_ERROR;
