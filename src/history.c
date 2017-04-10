@@ -22,9 +22,11 @@ void buildHist() {
     // Opens the cmdhist.txt file if it exists, or creates a new one
     FILE *hist = fopen("cmdhist.txt", "a+");
     char *cmd;
+    char *temp = fgets(cmd = malloc(sizeof(char)*charLength), sizeof(char)*charLength, hist);
     // Retrieve command history from file and add to the active session's history
-    while(fgets(cmd = malloc(sizeof(char)*charLength), sizeof(char)*charLength, hist)) {
+    while(temp) {
         addLast(parseCmd(cmd));
+        temp = fgets(cmd = malloc(sizeof(char)*charLength), sizeof(char)*charLength, hist);
     }
     free(cmd);
     // Close the file
@@ -169,6 +171,7 @@ void freeHistory() {
         free(temp->content);
         free(temp);
     }
+    free(currPos->content);
     free(currPos);
 }
 
