@@ -6,6 +6,7 @@
 #define CRAB_ACTION_GENERIC_ERROR -1
 #define CRAB_ACTION_ERROR_FORK_FAILED -2
 #define CRAB_ACTION_ERROR_EXEC_FAILED -3
+#define HISTORY_DISPLAY_ERROR -4
 
 /* Actions */
 #define CRAB_ACTION_NO_ACTION 1
@@ -15,6 +16,7 @@
 #define CRAB_ACTION_PWD 5
 #define CRAB_ACTION_COLOUR 6
 #define CRAB_ACTION_AD 7
+#define CRAB_ACTION_HIST 8
 
 /* Generates error text for a provided error code
  *

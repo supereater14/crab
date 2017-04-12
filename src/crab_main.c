@@ -1,5 +1,6 @@
 #include "crab.h"
 #include "crab_action.h"
+#include "history.h"
 #include "alias.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,6 +23,7 @@ int main(int argc, char **argv){
   size_t size_read;
   int error;
   int action;
+  bool histFlag = 0;
 
   /* Print help message on start if user provided "help" arg */
   if(argc > 1) {
@@ -31,16 +33,42 @@ int main(int argc, char **argv){
   }
 
   buf_size = 100;
+  /* Initialize the command history */
+  init();
 
   init_alias();
 
   for(;;){
 
-    /* Read user input */
-    //size_read = read(0, buf, 99);
-    //buf[size_read] = '\0';
-    buf = readline("crab$ ");
-
+    /* Behavior immediately after running a history command */
+    if (histFlag) {
+      char *temp = readline("crab$ ");
+      int tempInt = atoi(temp);
+      free(temp);
+      if (tempInt == 0) {
+        write(2, "Invalid index\n", 14);
+        histFlag = 0;
+        continue;
+      }
+      else {
+        // Adjust for offset
+        tempInt -= 1;
+      }
+      strcpy(buf, getCmdFromHist(tempInt));
+      if (!strcmp(buf, "Failed!")) {
+        write(2, "Invalid index\n", 14);
+        histFlag = 0;
+        continue;
+      }
+      histFlag = 0;
+    }
+    /* Normal behavior, not directly after history command */
+    else {
+      /* Read user input */
+      //size_read = read(0, buf, 99);
+      //buf[size_read] = '\0';
+      buf = readline("crab$ ");
+    }
     /* Handle piped commands */
     if(crab_isPiped(buf)) {
       error = crab_split_exec_piped_command(buf);
@@ -75,6 +103,13 @@ int main(int argc, char **argv){
       write(2, error_text, strlen(error_text));
       write(2, "\n", 1);
       return -1;
+    }
+
+    /* Add the command to the command history*/
+    addCommand(buf);
+    /* Set histFlag to true for next loop if history command was called */
+    if (!strncmp(buf, "history", 7)) {
+      histFlag = 1;
     }
 
     /* Free split buffer */
