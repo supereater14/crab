@@ -24,7 +24,7 @@
     cd <directory name>                   -- changes current directory to <directory name>
     exit (or quit)                        -- exits the crab shell
     autocomplete (press tab)              -- press tab when typing a directory name to have the shell auto-complete it
-    command history (up or down arrowkey) -- navigate through most recently used commands
+    command history <# of cmds>           -- displays a list of recently used commands
 
 # Color
     To change the color of the input/output text use the following command:
