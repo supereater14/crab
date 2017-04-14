@@ -123,7 +123,7 @@ void *down() {
 // Print out the specified number of commands
 int displayHist(int numCommands) {
     if (numCommands > getSize()) {
-        return CRAB_HISTORY_OUT_OF_BOUNDS_ERROR;
+        numCommands = getSize();
     }
     // Rewind to the earliest command to be printed
     int i = 0;
@@ -177,7 +177,7 @@ void freeHistory() {
 
 // Retrieve a command from the temp array
 extern char *getCmdFromHist(int index) {
-    if (index > tempArraySize) {
+    if (index < 0 || index > tempArraySize) {
         return "Failed!";
     }
     return tempArray[index];
