@@ -19,6 +19,10 @@
     crab directory:
 
     ./bin/crab
+    
+    To run the shell from within the crab directory and display a help message:
+    
+    ./bin/crab help
 
 # Implemented Commands
     cd <directory name>                   -- changes current directory to <directory name>
