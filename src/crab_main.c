@@ -54,6 +54,7 @@ int main(int argc, char **argv){
         // Adjust for offset
         tempInt -= 1;
       }
+      buf = malloc(sizeof(char)*buf_size);
       strcpy(buf, getCmdFromHist(tempInt));
       if (!strcmp(buf, "Failed!")) {
         write(2, "Invalid index\n", 14);

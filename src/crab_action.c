@@ -125,7 +125,6 @@ int crab_action_perform_action(int action, char **argv) {
             } else {
                 numCmds = atoi(argv[1]);
                 if (numCmds == 0) {
-                    printf("Failed to convert argv[1] to integer\n");
                     return HISTORY_DISPLAY_ERROR;
                 }
             }
