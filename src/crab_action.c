@@ -201,9 +201,9 @@ int crab_action_perform_action(int action, char **argv){
 	    command[0] = strtok(NULL, " ");
 	    command[1] = strtok(NULL, " ");
 
-	    free(view);
-
 	    crab_action_fork_exec_wait(command[0], command);
+
+	    free(view);
 	  }
 	  
 	  break;
@@ -247,9 +247,12 @@ int crab_action_perform_action(int action, char **argv){
 	    else if(strncmp(argv[1], "unknown", 8) == 0)
 	      type = UNKNOWN;
 
-		    
-
+	    if( setProgram(argv[2], type) != 0) 
+	      printf("Unable to set environment variable for %s.\n", argv[1]);
+	    
+	    
 	  }
+	  break;
 
 	default:
 	  return CRAB_ACTION_GENERIC_ERROR;

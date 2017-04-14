@@ -13,43 +13,43 @@ int setProgram(char* progName, filetype_t fType){
     break;
 
   case AUDIO:
-    strncat(string, "audio=", 250);
+    strncat(string, "AUDIO_VW=", 250);
     break;
 
   case VIDEO:
-    strncat(string, "video=", 250);
+    strncat(string, "VIDEO_VW=", 250);
     break;
 
   case MEDIA:
-    strncat(string, "media=",250);
+    strncat(string, "MEDIA_VW=",250);
     break;
       
   case IMAGE:
-    strncat(string, "image=",250);
+    strncat(string, "IMAGE_VW=",250);
     break;
 
   case TEXT:
-    strncat(string, "text=",250);
+    strncat(string, "TEXT_VW=",250);
     break;
 
   case DOCUMENT:
-    strncat(string, "document=",250);
+    strncat(string, "DOCUMENT_VW=",250);
     break;
 
   case PRESENTATION:
-    strncat(string, "presentation=",250);
+    strncat(string, "PRESENTATION_VW=",250);
     break;
 
   case SPREADSHEET:
-    strncat(string, "spreadsheet=",250);
+    strncat(string, "SPREADSHEET_VW=",250);
     break;
 
   case SOURCE:
-    strncat(string, "source=",250);
+    strncat(string, "SOURCE_VW=",250);
     break;
 
   case BINARY:
-    strncat(string, "binary=",250);
+    strncat(string, "BINARY_VW=",250);
     break;
 
   }
@@ -59,6 +59,7 @@ int setProgram(char* progName, filetype_t fType){
   strncat(string, progName, 250);
 
   if( putenv(string) != 0 ) {
+    printf("Error creating environment variable!\n");
     exit(1);
   }
 
@@ -73,35 +74,35 @@ char* getProgram(filetype_t fType) {
   switch (fType) {
   
   case MEDIA:
-    strncat(string, "media",250);
+    strncat(string, "MEDIA_VW",250);
     break;
     
   case IMAGE:
-    strncat(string, "image",250);
+    strncat(string, "SOURCE_VW",250);
     break;
 
   case TEXT:
-    strncat(string, "text",250);
+    strncat(string, "TEXT_VW",250);
     break;
 
   case DOCUMENT:
-    strncat(string, "document",250);
+    strncat(string, "DOCUMENT_VW",250);
     break;
 
   case PRESENTATION:
-    strncat(string, "presentation",250);
+    strncat(string, "PRESENTATION_VW",250);
     break;
 
   case SPREADSHEET:
-    strncat(string, "spreadsheet",250);
+    strncat(string, "SPREADSHEET_VW",250);
     break;
    
   case SOURCE:
-    strncat(string, "source",250);
+    strncat(string, "SOURCE_VW",250);
     break;
    
   case BINARY:
-    strncat(string, "binary",250);
+    strncat(string, "BINARY_VW",250);
     break;
 
   }
