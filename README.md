@@ -69,3 +69,8 @@
     To access history
     history - If no argument is given, 10 commands will be displayed by default
     history [# of commands] - If an integer argument is specified, that number of commands will be displayed.
+   
+# Pipes
+    Pipes can be used to take the output of one command and use it as the input of another command.
+    This shell supports any number of piped commands
+    Example: ls | grep test
