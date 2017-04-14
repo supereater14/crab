@@ -79,19 +79,22 @@ int crab_action_perform_action(int action, char **argv) {
             if (argv[1] != NULL) {
                 if ((pos = is_alias(argv[1])) >= 0) {
                     if (chdir(get_dir(pos))) {
-                        return CRAB_ACTION_GENERIC_ERROR;
+		      printf("Unable to find directory.\n");
+                        return CRAB_ACTION_ERROR_SUCCESS;
                     }
                     return CRAB_ACTION_ERROR_SUCCESS;
                 }
                 if (chdir(argv[1])) {
-                    return CRAB_ACTION_GENERIC_ERROR;
+		  printf("Unable to find directory.\n");
+                    return CRAB_ACTION_ERROR_SUCCESS;
                 }
                 return CRAB_ACTION_ERROR_SUCCESS;
             } else {
                 if (temp = getenv("HOME")) {
                     return chdir(temp);
                 }
-                return CRAB_ACTION_GENERIC_ERROR;
+		printf("Unable to find directory.\n");
+                return CRAB_ACTION_ERROR_SUCCESS;
             }
             break;
 
