@@ -25,10 +25,6 @@ Once crab is installed, you can run it with
 
     crab
 
-To run the shell and display a help message, run
-
-    crab help
-
 # Implemented Commands
 
 | Feature                  | Description                                                               |

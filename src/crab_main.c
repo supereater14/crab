@@ -25,13 +25,6 @@ int main(int argc, char **argv){
   int action;
   bool histFlag = 0;
 
-  /* Print help message on start if user provided "help" arg */
-  if(argc > 1) {
-    if(strcmp("help", argv[1]) == 0) {
-      write(1, "This will print a help message\n", 31);
-    }
-  }
-
   buf_size = 100;
   /* Initialize the command history */
   init();
