@@ -50,6 +50,7 @@ Set an alias with ad (see commands below) and cd to that alias
 | ad findd [dir]  | print names associated with [dir]                          |
 | ad save         | save all alias to file to be used in other sessions        |
 | ad deletelog    | delete alias.log and its contents                          |
+| ad remove [name]| Remove an alias with [name]                                |
 | ad reset        | reset all alias for this current session                   |
 | cd [name]       | change directory to the directory corresponding to [name]  |
 
