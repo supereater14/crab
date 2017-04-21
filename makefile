@@ -42,5 +42,8 @@ uninstall:
 	done
 	mandb
 
+debug:
+	${CC} ${CFLAGS} ${SRC_DIR}/test_crab.c ${OBJ_DIR}/history.o ${OBJ_DIR}/alias.o ${OBJ_DIR}/term_colour.o -o test_crab
+
 clean:
-	rm -f ${OBJS} ${BINS}
+	rm -f ${OBJS} ${BINS} test_crab cmdhist.txt
