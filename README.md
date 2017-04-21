@@ -16,6 +16,11 @@ To build the crab shell without installing, use the following
 
 The shell will be located in bin/crab
 
+To run the unit tests, use the following (note that you must use make before you do this)
+    
+    make debug
+    ./test_crab
+
 Once crab is installed, it can be uninstalled with
 
     sudo make uninstall
